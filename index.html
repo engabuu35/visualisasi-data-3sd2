@@ -111,7 +111,7 @@ const SLIDE_FILES = [
 // ═══════════════════════════════════════════
 // ENDPOINT API PHP
 // ═══════════════════════════════════════════
-const API_URL = 'data.php?slide=all';
+const API_URL = 'https://aiworkfuture.infinityfree.me/data.php?slide=all';
 
 // ── Loading UI helpers ─────────────────────
 function setLoadStatus(msg, pct) {
@@ -261,26 +261,5 @@ function animateSlide(slide) {
 // ── Mulai ──────────────────────────────────
 boot();
 </script>
-<script>
-const API = "https://aiworkfuture.infinityfree.me/data.php?slide=all";
-
-async function loadData() {
-  try {
-    const res = await fetch(API);
-    const result = await res.json();
-
-    console.log(result.data);
-
-    document.getElementById("output").innerText =
-      JSON.stringify(result.data.slide1, null, 2);
-
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-loadData();
-</script>
-<pre id="output"></pre>
 </body>
 </html>
