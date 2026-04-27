@@ -311,6 +311,8 @@ function getSlide7(PDO $db): array {
 /**
  * SLIDE 8 — Salary by Experience Level
  * Output: array of { experience_level, salary }
+ * Kirim raw rows — quantile dihitung di JS pakai metode (N+1)*p (Tableau-compatible)
+ * Jangan pre-aggregate di SQL karena butuh distribusi penuh untuk boxplot
  */
 function getSlide8(PDO $db): array {
     $stmt = $db->query("
@@ -327,7 +329,8 @@ function getSlide8(PDO $db): array {
                 WHEN 'Mid'    THEN 2
                 WHEN 'Senior' THEN 3
                 ELSE 4
-            END
+            END,
+            salary ASC
     ");
     return $stmt->fetchAll();
 }
