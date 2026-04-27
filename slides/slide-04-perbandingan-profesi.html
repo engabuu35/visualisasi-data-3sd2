@@ -1,0 +1,102 @@
+<!--
+  SLIDE 4 — PERBANDINGAN PROFESI
+  File: slide-04-perbandingan-profesi.html
+  Berisi: Profession compare cards (Aman vs Rentan), Salary bar chart
+  Chart: salaryChart (ECharts bar horizontal)
+-->
+
+<section class="slide" id="s3">
+  <div style="max-width:1100px;width:100%;display:flex;flex-direction:column;gap:18px;">
+    <div>
+      <div class="badge badge-blue slide-in" style="margin-bottom:10px;">Slide 4 · Perbandingan Profesi</div>
+      <h2 class="font-raj slide-in" style="font-size:clamp(1.8rem,4.5vw,3.4rem);font-weight:700;">
+        TIDAK SEMUA PROFESI<br><span style="color:var(--slate-blue);" class="glow-blue">SAMA AMAN</span>
+      </h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:start;">
+      <!-- Left: Profesi Cards -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="compare-card slide-in" style="border-color:rgba(185,240,215,0.35);background:rgba(185,240,215,0.05);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <div>
+              <div style="font-size:10px;color:var(--celadon);text-transform:uppercase;letter-spacing:.08em;">✓ Paling Aman</div>
+              <div class="font-raj" style="font-size:1.1rem;font-weight:700;color:var(--columbia-blue);">AI Researcher · ML Engineer</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:Orbitron;font-size:1.1rem;color:var(--celadon);">0.10 – 0.15</div>
+              <div style="font-size:10px;color:var(--periwinkle);">AI Risk Score</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <div class="risk-bar" style="background:var(--celadon);width:12%;flex:none;"></div>
+            <div class="risk-bar" style="background:rgba(185,240,215,0.15);flex:1;"></div>
+          </div>
+          <p style="font-size:12px;color:var(--periwinkle);margin-top:10px;line-height:1.5;">Fokus pada inovasi riset dan pengembangan sistem AI/ML skala besar yang kompleks.</p>
+        </div>
+        <div class="compare-card slide-in" style="border-color:rgba(255,77,166,0.35);background:rgba(255,77,166,0.05);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <div>
+              <div style="font-size:10px;color:var(--hot-pink);text-transform:uppercase;letter-spacing:.08em;">⚠ Paling Rentan</div>
+              <div class="font-raj" style="font-size:1.1rem;font-weight:700;color:var(--columbia-blue);">Business Analyst · Data Analyst</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:Orbitron;font-size:1.1rem;color:var(--hot-pink);">0.70 – 0.78</div>
+              <div style="font-size:10px;color:var(--periwinkle);">AI Risk Score</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <div class="risk-bar" style="background:var(--hot-pink);width:78%;flex:none;"></div>
+            <div class="risk-bar" style="background:rgba(255,77,166,0.15);flex:1;"></div>
+          </div>
+          <p style="font-size:12px;color:var(--periwinkle);margin-top:10px;line-height:1.5;">Analisis rutin, pembersihan data, visualisasi standar, dan pelaporan mudah diotomatisasi AI.</p>
+        </div>
+        <div class="glass-accent slide-in" style="padding:14px;display:flex;gap:12px;align-items:center;">
+          <div style="font-size:1.5rem;">🚀</div>
+          <p style="font-size:13px;color:var(--columbia-blue);line-height:1.6;">
+            <strong style="color:var(--celadon);">Kesimpulan:</strong> Di era AI, tidak semua karier diciptakan sama. AI Researcher dan ML Engineer bukan sekadar bertahan — mereka berkembang.
+          </p>
+        </div>
+      </div>
+      <!-- Right: Salary Chart -->
+      <div class="glass slide-in" style="padding:20px;height:380px;">
+        <div style="font-family:Rajdhani;font-size:14px;font-weight:600;color:var(--periwinkle);margin-bottom:12px;">TRAJEKTORI GAJI (RATA-RATA USD)</div>
+        <div id="salaryChart" class="chart-box" style="height:calc(100% - 30px);"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ═══════════════════════════════════════════
+// CHART 4 — SALARY BAR
+// ═══════════════════════════════════════════
+(function initSlide4() {
+  const C = window.PALETTE;
+  const salaryEC = echarts.init(document.getElementById('salaryChart'), null, {renderer:'canvas'});
+  salaryEC.setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, backgroundColor: 'rgba(8,8,20,0.95)', borderColor: C.blue, textStyle: { color: C.col, fontFamily: 'Outfit' } },
+    grid: { left: '2%', right: '8%', bottom: '2%', top: '2%', containLabel: true },
+    xAxis: { type: 'value', axisLabel: { color: C.peri, fontFamily: 'Outfit', formatter: v => '$'+(v/1000)+'K' }, splitLine: { lineStyle: { color: 'rgba(184,186,255,0.07)', type: 'dashed' } } },
+    yAxis: { type: 'category', data: ['Data Analyst','Business Analyst','ML Engineer','AI Researcher'], axisLabel: { color: C.col, fontFamily: 'Outfit', fontSize: 12 } },
+    series: [{
+      type: 'bar',
+      data: [60000, 78000, 115000, 130000],
+      barWidth: '45%',
+      itemStyle: {
+        borderRadius: [0,8,8,0],
+        color: params => {
+          const cols = [C.pink, C.peri, C.col, C.cel];
+          return { type:'linear', x:0,y:0,x2:1,y2:0, colorStops:[{offset:0,color:cols[params.dataIndex]},{offset:1,color:cols[params.dataIndex]+'33'}] };
+        }
+      },
+      label: {
+        show: true, position: 'right', color: C.col, fontFamily: 'Outfit', fontSize: 13,
+        formatter: p => '$'+(p.value/1000)+'K'+(p.dataIndex===3?'+':'')
+      }
+    }]
+  });
+  window._charts = window._charts || [];
+  window._charts.push(salaryEC);
+})();
+</script>

@@ -1,0 +1,70 @@
+<!--
+  SLIDE 6 — TOP SKILLS
+  File: slide-06-top-skills.html
+  Berisi: Horizontal bar chart skill demand, skill pills
+  Chart: skillChart (ECharts horizontal bar)
+-->
+
+<section class="slide" id="s5">
+  <div style="max-width:1100px;width:100%;display:grid;grid-template-columns:1.5fr 1fr;gap:32px;align-items:center;">
+    <div class="glass slide-in" style="padding:24px;height:440px;">
+      <div style="font-family:Rajdhani;font-size:15px;font-weight:600;color:var(--periwinkle);letter-spacing:.05em;margin-bottom:4px;">TOP SKILL BY DEMAND SCORE</div>
+      <div id="skillChart" class="chart-box" style="height:calc(100% - 30px);"></div>
+    </div>
+    <div>
+      <div class="badge badge-celadon slide-in" style="margin-bottom:12px;">Slide 6 · Skills</div>
+      <h2 class="font-raj slide-in" style="font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:700;line-height:1.1;">
+        SKILL PALING<br><span style="color:var(--celadon);" class="glow-celadon">DICARI INDUSTRI</span>
+      </h2>
+      <span class="neon-line slide-in" style="width:140px;background:linear-gradient(90deg,var(--celadon),transparent);box-shadow:0 0 8px var(--celadon);"></span>
+      <p class="slide-in" style="color:var(--periwinkle);font-size:.9rem;margin-top:10px;line-height:1.7;">
+        Keahlian yang paling dicari memiliki demand score serupa, artinya pasar membutuhkan <strong style="color:var(--columbia-blue);">kombinasi skill</strong> yang beragam.
+      </p>
+      <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px;" class="slide-in">
+        <div class="skill-pill"><span style="color:var(--celadon);">☁</span> AWS & Cloud Infrastructure</div>
+        <div class="skill-pill"><span style="color:var(--periwinkle);">🧠</span> Deep Learning & AI/ML</div>
+        <div class="skill-pill"><span style="color:var(--slate-blue);">🐍</span> Python & Data Engineering</div>
+        <div class="skill-pill"><span style="color:var(--celadon);">🔒</span> Security & DevSecOps</div>
+        <div class="skill-pill"><span style="color:var(--periwinkle);">📊</span> SQL & Strategy Analytics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ═══════════════════════════════════════════
+// CHART 6 — SKILL DEMAND
+// ═══════════════════════════════════════════
+(function initSlide6() {
+  const C = window.PALETTE;
+  const skillEC = echarts.init(document.getElementById('skillChart'), null, {renderer:'canvas'});
+  skillEC.setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, backgroundColor: 'rgba(8,8,20,0.95)', borderColor: C.blue, textStyle: { color: C.col, fontFamily: 'Outfit' } },
+    grid: { left: '3%', right: '5%', bottom: '2%', top: '2%', containLabel: true },
+    xAxis: { type: 'value', min: 70, axisLabel: { color: C.peri, fontFamily: 'Outfit' }, splitLine: { lineStyle: { color: 'rgba(184,186,255,0.07)', type: 'dashed' } } },
+    yAxis: {
+      type: 'category',
+      data: ['Strategy','SQL','Security','Python','Java','Excel','Docker','Deep Learning','AWS'],
+      axisLabel: { color: C.col, fontFamily: 'Outfit', fontWeight: '600', fontSize: 13 }
+    },
+    series: [{
+      name: 'Avg Demand Score',
+      type: 'bar',
+      barWidth: '52%',
+      data: [79, 80, 80, 80, 82, 80, 80, 80, 80],
+      itemStyle: {
+        borderRadius: [0, 10, 10, 0],
+        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+          { offset: 0, color: C.blue },
+          { offset: 0.6, color: C.peri },
+          { offset: 1, color: C.cel }
+        ])
+      },
+      label: { show: true, position: 'right', color: C.col, fontFamily: 'Outfit', fontSize: 12, formatter: '{c}' }
+    }]
+  });
+  window._charts = window._charts || [];
+  window._charts.push(skillEC);
+})();
+</script>
