@@ -56,20 +56,21 @@
 </div>
 
 <!-- Progress Bar -->
-<div id="progress-bar" style="width:12.5%"></div>
+<div id="progress-bar" style="width:9.09%"></div>
 
 <!-- Slide Navigation Dots -->
 <div id="dots">
-  <div class="dot active" onclick="goTo(0)" title="Slide 1: Cover"></div>
-  <div class="dot" onclick="goTo(1)" title="Slide 2: Bukti Paradoks"></div>
-  <div class="dot" onclick="goTo(2)" title="Slide 3: Perbandingan Profesi"></div>
-  <div class="dot" onclick="goTo(3)" title="Slide 4: Perbandingan Profesi"></div>
-  <div class="dot" onclick="goTo(4)" title="Slide 6: Top Skills"></div>
-  <div class="dot" onclick="goTo(5)" title="Slide 5: Pendidikan & Risiko"></div>
-  <div class="dot" onclick="goTo(6)" title="Slide 7: Job Survival"></div>
-  <div class="dot" onclick="goTo(7)" title="Slide 8: Salary per Pengalaman"></div>
-  <div class="dot" onclick="goTo(8)" title="Slide 9: World Heatmap"></div>
-  <div class="dot" onclick="goTo(9)" title="Slide 10: Penutup"></div>
+  <div class="dot active" onclick="goTo(0)" title="Slide 0: Landing Page"></div>
+  <div class="dot" onclick="goTo(1)" title="Slide 1: Cover"></div>
+  <div class="dot" onclick="goTo(2)" title="Slide 2: Bukti Paradoks"></div>
+  <div class="dot" onclick="goTo(3)" title="Slide 3: Perbandingan Profesi"></div>
+  <div class="dot" onclick="goTo(4)" title="Slide 4: Perbandingan Profesi"></div>
+  <div class="dot" onclick="goTo(5)" title="Slide 5: Top Skills"></div>
+  <div class="dot" onclick="goTo(6)" title="Slide 6: Pendidikan & Risiko"></div>
+  <div class="dot" onclick="goTo(7)" title="Slide 7: Job Survival"></div>
+  <div class="dot" onclick="goTo(8)" title="Slide 8: Salary per Pengalaman"></div>
+  <div class="dot" onclick="goTo(9)" title="Slide 9: World Heatmap"></div>
+  <div class="dot" onclick="goTo(10)" title="Slide 10: Penutup"></div>
 </div>
 
 <!-- Story Container -->
@@ -91,9 +92,10 @@ window.PALETTE = {
 };
 
 // ═══════════════════════════════════════════
-// DAFTAR SLIDE
+// DAFTAR SLIDE (slide-00 ditambahkan di awal)
 // ═══════════════════════════════════════════
 const SLIDE_FILES = [
+  'slides/slide-00-landing-page.html',
   'slides/slide-01-cover.html',
   'slides/slide-02-bukti-paradoks.html',
   'slides/slide-03-salary-distribution.html',
@@ -108,8 +110,6 @@ const SLIDE_FILES = [
 
 // ═══════════════════════════════════════════
 // ENDPOINT API PHP
-// Ganti URL ini jika folder presentasi kamu
-// bukan di root htdocs XAMPP
 // ═══════════════════════════════════════════
 const API_URL = 'data.php?slide=all';
 
@@ -134,14 +134,9 @@ function hideLoading() {
 
 // ═══════════════════════════════════════════
 // MAIN BOOT SEQUENCE
-// 1. Fetch data dari PHP API
-// 2. Simpan ke window.SLIDE_DATA
-// 3. Load semua slide HTML
-// 4. Inisialisasi navigasi
 // ═══════════════════════════════════════════
 async function boot() {
   try {
-    // ── Step 1: Fetch data dari API ───────
     setLoadStatus('Mengambil data dari database...', 20);
     const res = await fetch(API_URL);
 
@@ -154,15 +149,11 @@ async function boot() {
       throw new Error('API error: ' + (json.error || 'Unknown error'));
     }
 
-    // ── Step 2: Simpan global ─────────────
-    // Semua slide bisa akses via window.SLIDE_DATA.slide1, .slide2, dst
     window.SLIDE_DATA = json.data;
     setLoadStatus('Data diterima. Memuat slide...', 50);
 
-    // ── Step 3: Load slide HTML ───────────
     await loadSlides();
 
-    // ── Step 4: Selesai ───────────────────
     setLoadStatus('Selesai!', 100);
     setTimeout(hideLoading, 300);
 
@@ -173,7 +164,7 @@ async function boot() {
 }
 
 // ═══════════════════════════════════════════
-// SLIDE LOADER (sama seperti sebelumnya)
+// SLIDE LOADER
 // ═══════════════════════════════════════════
 async function loadSlides() {
   const story = document.getElementById('story');
