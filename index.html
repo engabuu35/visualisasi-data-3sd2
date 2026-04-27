@@ -111,7 +111,7 @@ const SLIDE_FILES = [
 // ═══════════════════════════════════════════
 // ENDPOINT API PHP
 // ═══════════════════════════════════════════
-const API_URL = 'https://aiworkfuture.infinityfree.me/data.php?slide=all';
+const API_URL = 'data.php?slide=all';
 
 // ── Loading UI helpers ─────────────────────
 function setLoadStatus(msg, pct) {
@@ -168,23 +168,22 @@ async function boot() {
 // ═══════════════════════════════════════════
 async function loadSlides() {
   const story = document.getElementById('story');
+  const total = SLIDE_FILES.length;
 
-  const results = await Promise.allSettled(
-    SLIDE_FILES.map(async (file) => {
+  for (let i = 0; i < total; i++) {
+    const file = SLIDE_FILES[i];
+    setLoadStatus(`Memuat slide ${i + 1} dari ${total}...`, 50 + (i / total) * 45);
+
+    try {
       const res = await fetch(file);
-      if (!res.ok) throw new Error(res.status);
-      return res.text();
-    })
-  );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const html = await res.text();
 
-  results.forEach((result, i) => {
-    if (result.status === 'fulfilled') {
       const wrapper = document.createElement('div');
-      wrapper.innerHTML = result.value;
+      wrapper.innerHTML = html;
 
       const scripts = wrapper.querySelectorAll('script');
       const scriptContents = [];
-
       scripts.forEach(s => {
         scriptContents.push(s.textContent);
         s.remove();
@@ -198,14 +197,15 @@ async function loadSlides() {
         document.body.appendChild(tag);
       });
 
-    } else {
+    } catch (err) {
+      console.error(`Gagal memuat ${file}:`, err);
       story.insertAdjacentHTML('beforeend', `
-        <section class="slide" style="color:#ff4da6;font-family:Orbitron;">
-          ⚠ Slide gagal load: ${SLIDE_FILES[i]}
+        <section class="slide" style="color:var(--hot-pink);font-family:Orbitron;font-size:1rem;">
+          ⚠ Gagal memuat: ${file}
         </section>
       `);
     }
-  });
+  }
 
   initNavigation();
 }
