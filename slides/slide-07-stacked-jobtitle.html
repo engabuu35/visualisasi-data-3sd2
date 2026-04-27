@@ -14,7 +14,7 @@
   <div class="deco-circle" style="width:500px;height:500px;border-color:var(--slate-blue);bottom:-200px;left:-150px;"></div>
   <div class="deco-circle" style="width:300px;height:300px;border-color:var(--celadon);top:-100px;right:-80px;"></div>
 
-  <div style="max-width:1200px;width:100%;display:flex;flex-direction:column;gap:18px;">
+  <div style="max-width:1200px;width:100%;display:flex;flex-direction:column;gap:clamp(8px,1.6vh,18px);">
 
     <!-- Header -->
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:10px;">
@@ -31,26 +31,26 @@
     </div>
 
     <!-- Body: Narasi kiri + Chart kanan -->
-    <div style="display:grid;grid-template-columns:1fr 2fr;gap:24px;align-items:stretch;">
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:clamp(10px,2vw,24px);align-items:stretch;">
 
       <!-- Kiri: Narasi -->
       <div style="display:flex;flex-direction:column;gap:14px;">
 
-        <div class="glass-accent slide-in" style="padding:18px;border-left:3px solid var(--hot-pink);">
+        <div class="glass-accent slide-in" style="padding:clamp(10px,1.5vh,18px);border-left:3px solid var(--hot-pink);">
           <div style="font-size:10px;color:var(--hot-pink);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">⚠ At Risk</div>
           <p style="font-size:13px;color:var(--columbia-blue);line-height:1.65;">
             <strong style="color:var(--periwinkle);">Business Analyst</strong> dan <strong style="color:var(--periwinkle);">Data Analyst</strong> didominasi warna gelap di bagian bawah — porsi <em>At Risk</em>-nya paling besar dibanding profesi lain.
           </p>
         </div>
 
-        <div class="glass-accent slide-in" style="padding:18px;border-left:3px solid var(--celadon);">
+        <div class="glass-accent slide-in" style="padding:clamp(10px,1.5vh,18px);border-left:3px solid var(--celadon);">
           <div style="font-size:10px;color:var(--celadon);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">✓ Thriving</div>
           <p style="font-size:13px;color:var(--columbia-blue);line-height:1.65;">
             <strong style="color:var(--periwinkle);">AI Researcher</strong> dan <strong style="color:var(--periwinkle);">ML Engineer</strong> hampir seluruhnya berwarna terang: mereka bukan sekadar bertahan, mereka berkembang.
           </p>
         </div>
 
-        <div class="glass slide-in" style="padding:18px;background:rgba(102,102,255,0.1);border-color:rgba(102,102,255,0.4);">
+        <div class="glass slide-in" style="padding:clamp(10px,1.5vh,18px);background:rgba(102,102,255,0.1);border-color:rgba(102,102,255,0.4);">
           <div style="font-family:Orbitron;font-size:10px;letter-spacing:.12em;color:var(--periwinkle);margin-bottom:8px;">KESIMPULAN</div>
           <p style="font-size:13px;color:var(--columbia-blue);line-height:1.65;">
             Satu chart, satu kesimpulan — di era AI, <strong style="color:var(--celadon);">tidak semua karir IT diciptakan sama.</strong>
@@ -80,7 +80,7 @@
         <div style="font-family:Rajdhani;font-size:13px;font-weight:600;color:var(--periwinkle);letter-spacing:.05em;margin-bottom:12px;">
           DISTRIBUSI SURVIVAL CLASS (100% PER PROFESI)
         </div>
-        <div style="position:relative;height:340px;">
+        <div style="position:relative;height:clamp(200px,40vh,340px);">
           <canvas id="stackedBarChart"></canvas>
         </div>
       </div>
