@@ -1,0 +1,167 @@
+<!--
+  SLIDE 7 — WORLD HEATMAP (GLOBAL VIEW)
+  File: slide-07-world-heatmap.html
+  Berisi: Leaflet choropleth map (risiko AI per negara), country stats footer
+  Library: Leaflet.js (dari CDN), GeoJSON dari GitHub datasets
+-->
+
+<section class="slide" id="s6">
+  <div style="max-width:1200px;width:100%;display:flex;flex-direction:column;gap:16px;height:92vh;justify-content:center;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div>
+        <div class="badge badge-blue slide-in" style="margin-bottom:8px;">Slide 7 · Global View</div>
+        <h2 class="font-raj slide-in" style="font-size:clamp(1.6rem,4vw,3rem);font-weight:700;">
+          RISIKO AI <span style="color:var(--slate-blue);" class="glow-blue">TIDAK MENGENAL BATAS</span>
+        </h2>
+      </div>
+      <p class="slide-in" style="color:var(--periwinkle);font-size:.88rem;max-width:360px;line-height:1.6;">
+        Klik negara pada peta untuk melihat detail profesi paling berisiko dan kondisi pasar kerja IT.
+      </p>
+    </div>
+    <div class="glass slide-in" style="flex:1;padding:6px;min-height:0;position:relative;">
+      <div id="worldMap"></div>
+    </div>
+    <div class="grid-3 slide-in" style="gap:12px;">
+      <div class="glass-accent" style="padding:14px;display:flex;align-items:center;gap:12px;">
+        <div style="font-size:1.4rem;">🇺🇸</div>
+        <div><div class="font-raj" style="font-weight:700;font-size:.95rem;color:var(--columbia-blue);">USA</div><div style="font-size:11px;color:var(--periwinkle);">Gaji rata-rata: $48.26K</div></div>
+      </div>
+      <div class="glass-accent" style="padding:14px;display:flex;align-items:center;gap:12px;">
+        <div style="font-size:1.4rem;">🌍</div>
+        <div><div class="font-raj" style="font-weight:700;font-size:.95rem;color:var(--columbia-blue);">Pola Konsisten</div><div style="font-size:11px;color:var(--periwinkle);">Business Analyst paling rentan di semua negara</div></div>
+      </div>
+      <div class="glass-accent" style="padding:14px;display:flex;align-items:center;gap:12px;">
+        <div style="font-size:1.4rem;">🤖</div>
+        <div><div class="font-raj" style="font-weight:700;font-size:.95rem;color:var(--columbia-blue);">AI Researcher</div><div style="font-size:11px;color:var(--periwinkle);">Tetap paling aman di seluruh dunia</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ═══════════════════════════════════════════
+// LEAFLET CHOROPLETH HEATMAP
+// ═══════════════════════════════════════════
+(function initSlide7() {
+  const map = L.map('worldMap', {
+    center: [20, 10],
+    zoom: 2,
+    zoomControl: true,
+    scrollWheelZoom: false,
+    minZoom: 1,
+    maxZoom: 6
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap © CARTO',
+    subdomains: 'abcd',
+    maxZoom: 20
+  }).addTo(map);
+
+  // Country data: [avg salary USD K, risk level 0-1, top risk job, safest job]
+  const countryData = {
+    'USA':{ salary:'$48.26K', risk: 0.42, riskJob:'Business Analyst', safeJob:'AI Researcher', openings:'25,600+', label:'United States' },
+    'CAN':{ salary:'$36.56K', risk: 0.40, riskJob:'Business Analyst', safeJob:'AI Researcher', openings:'18,200+', label:'Canada' },
+    'GBR':{ salary:'$41.48K', risk: 0.41, riskJob:'Business Analyst', safeJob:'AI Researcher', openings:'22,400+', label:'United Kingdom' },
+    'DEU':{ salary:'$33.23K', risk: 0.36, riskJob:'Business Analyst', safeJob:'ML Engineer', openings:'16,800+', label:'Germany' },
+    'IND':{ salary:'$14.09K', risk: 0.55, riskJob:'Data Analyst', safeJob:'ML Engineer', openings:'42,000+', label:'India' },
+    'AUS':{ salary:'$35.72K', risk: 0.38, riskJob:'Business Analyst', safeJob:'Cybersecurity', openings:'12,500+', label:'Australia' },
+    'CHN':{ salary:'$18.50K', risk: 0.50, riskJob:'Data Analyst', safeJob:'ML Engineer', openings:'55,000+', label:'China' },
+    'BRA':{ salary:'$12.30K', risk: 0.60, riskJob:'Business Analyst', safeJob:'Cybersecurity', openings:'14,200+', label:'Brazil' },
+    'JPN':{ salary:'$28.40K', risk: 0.34, riskJob:'Data Analyst', safeJob:'AI Researcher', openings:'11,000+', label:'Japan' },
+    'FRA':{ salary:'$31.20K', risk: 0.37, riskJob:'Business Analyst', safeJob:'ML Engineer', openings:'10,400+', label:'France' },
+    'NLD':{ salary:'$38.90K', risk: 0.35, riskJob:'Business Analyst', safeJob:'ML Engineer', openings:'8,600+', label:'Netherlands' },
+    'SGP':{ salary:'$44.20K', risk: 0.38, riskJob:'Data Analyst', safeJob:'AI Researcher', openings:'7,800+', label:'Singapore' },
+    'KOR':{ salary:'$24.80K', risk: 0.40, riskJob:'Data Analyst', safeJob:'ML Engineer', openings:'9,200+', label:'South Korea' },
+    'ZAF':{ salary:'$10.50K', risk: 0.62, riskJob:'Business Analyst', safeJob:'Cybersecurity', openings:'5,100+', label:'South Africa' },
+    'MEX':{ salary:'$11.80K', risk: 0.58, riskJob:'Business Analyst', safeJob:'Software Engineer', openings:'8,400+', label:'Mexico' },
+    'IDN':{ salary:'$9.20K', risk: 0.63, riskJob:'Data Analyst', safeJob:'Cybersecurity', openings:'12,000+', label:'Indonesia' },
+    'RUS':{ salary:'$15.60K', risk: 0.45, riskJob:'Data Analyst', safeJob:'ML Engineer', openings:'14,600+', label:'Russia' },
+    'SWE':{ salary:'$40.30K', risk: 0.33, riskJob:'Business Analyst', safeJob:'AI Researcher', openings:'6,200+', label:'Sweden' },
+  };
+
+  function getRiskColor(risk) {
+    if(risk < 0.3) return `rgba(185,240,215,${0.5 + risk})`;
+    if(risk < 0.45) return `rgba(184,186,255,${0.5 + risk*0.5})`;
+    if(risk < 0.55) return `rgba(102,102,255,${0.55 + risk*0.4})`;
+    return `rgba(255,77,166,${0.45 + risk*0.4})`;
+  }
+
+  function riskLabel(r) {
+    if(r < 0.35) return '<span style="color:#b9f0d7">● Rendah</span>';
+    if(r < 0.48) return '<span style="color:#b8baff">● Menengah</span>';
+    if(r < 0.56) return '<span style="color:#6666ff">● Tinggi</span>';
+    return '<span style="color:#ff4da6">● Sangat Tinggi</span>';
+  }
+
+  fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson')
+    .then(r => r.json())
+    .then(geo => {
+      L.geoJSON(geo, {
+        style: feature => {
+          const iso = feature.properties.ISO_A3;
+          const d = countryData[iso];
+          return {
+            fillColor: d ? getRiskColor(d.risk) : 'rgba(30,30,50,0.4)',
+            fillOpacity: d ? 0.75 : 0.2,
+            color: 'rgba(102,102,255,0.25)',
+            weight: 0.8
+          };
+        },
+        onEachFeature: (feature, layer) => {
+          const iso = feature.properties.ISO_A3;
+          const d = countryData[iso];
+          if(d) {
+            layer.on('mouseover', function() {
+              this.setStyle({ weight: 2, color: '#6666ff', fillOpacity: 0.9 });
+            });
+            layer.on('mouseout', function() {
+              this.setStyle({ weight: 0.8, color: 'rgba(102,102,255,0.25)', fillOpacity: 0.75 });
+            });
+            layer.bindPopup(`
+              <div class="popup-title">${d.label}</div>
+              <div class="popup-row"><span class="popup-label">Avg. IT Salary</span><span class="popup-val">${d.salary}</span></div>
+              <div class="popup-row"><span class="popup-label">Risiko AI</span><span class="popup-val">${riskLabel(d.risk)}</span></div>
+              <div class="popup-row"><span class="popup-label">Profesi Berisiko</span><span class="popup-val">${d.riskJob}</span></div>
+              <div class="popup-row"><span class="popup-label">Profesi Aman</span><span class="popup-val">${d.safeJob}</span></div>
+              <div class="popup-row"><span class="popup-label">Est. Lowongan</span><span class="popup-val">${d.openings}</span></div>
+            `);
+          }
+        }
+      }).addTo(map);
+
+      const legend = L.control({ position: 'bottomright' });
+      legend.onAdd = () => {
+        const div = L.DomUtil.create('div', 'info-legend');
+        div.innerHTML = `<h4>Risiko AI</h4>
+          <span style="color:#b9f0d7">●</span> Rendah (&lt;35%)<br>
+          <span style="color:#b8baff">●</span> Menengah (35–47%)<br>
+          <span style="color:#6666ff">●</span> Tinggi (48–55%)<br>
+          <span style="color:#ff4da6">●</span> Sangat Tinggi (&gt;55%)<br>
+          <span style="color:#334">●</span> Tidak ada data`;
+        return div;
+      };
+      legend.addTo(map);
+    })
+    .catch(() => {
+      const markerData = [
+        { lat:39.8, lng:-98.5, ...countryData['USA'] },
+        { lat:20.6, lng:78.9, ...countryData['IND'] },
+        { lat:51.1, lng:10.4, ...countryData['DEU'] },
+        { lat:-25.2, lng:133.7, ...countryData['AUS'] },
+        { lat:35.6, lng:139.6, ...countryData['JPN'] },
+      ];
+      markerData.forEach(d => {
+        const icon = L.divIcon({
+          html: `<div style="width:16px;height:16px;border-radius:50%;background:${getRiskColor(d.risk)};box-shadow:0 0 12px ${getRiskColor(d.risk)};border:2px solid rgba(255,255,255,0.5);"></div>`,
+          iconSize:[16,16], iconAnchor:[8,8], className:''
+        });
+        L.marker([d.lat, d.lng], { icon }).addTo(map)
+          .bindPopup(`<div class="popup-title">${d.label}</div><div class="popup-row"><span class="popup-label">Salary</span><span class="popup-val">${d.salary}</span></div>`);
+      });
+    });
+
+  // Expose map for resize handling
+  window._leafletMap = map;
+})();
+</script>
