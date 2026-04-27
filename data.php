@@ -132,11 +132,11 @@ function getSlide1(PDO $db): array {
 function getSlide2(PDO $db): array {
     $stmt = $db->query("
         SELECT 
-            TRIM(REPLACE(job_title, CHAR(65279), '')) AS job_title, 
-            ROUND(AVG(ai_risk_score) * 100, 2)        AS ai_risk_pct, 
-            SUM(job_openings)              AS job_openings 
+            job_title, 
+            ROUND(AVG(ai_risk_score) * 100, 2) as ai_risk_pct, 
+            ROUND(AVG(job_openings), 0) as job_openings 
         FROM jobs 
-        GROUP BY TRIM(REPLACE(job_title, CHAR(65279), ''))
+        GROUP BY job_title 
         ORDER BY ai_risk_pct DESC 
         LIMIT 10
     ");
@@ -311,6 +311,8 @@ function getSlide7(PDO $db): array {
 /**
  * SLIDE 8 — Salary by Experience Level
  * Output: array of { experience_level, salary }
+ * Kirim raw rows — quantile dihitung di JS pakai metode (N+1)*p (Tableau-compatible)
+ * Jangan pre-aggregate di SQL karena butuh distribusi penuh untuk boxplot
  */
 function getSlide8(PDO $db): array {
     $stmt = $db->query("
@@ -327,7 +329,8 @@ function getSlide8(PDO $db): array {
                 WHEN 'Mid'    THEN 2
                 WHEN 'Senior' THEN 3
                 ELSE 4
-            END
+            END,
+            salary ASC
     ");
     return $stmt->fetchAll();
 }
