@@ -45,7 +45,7 @@
           </div>
           <div class="font-raj" style="font-size:1.2rem;font-weight:700;color:var(--columbia-blue);">AI Researcher</div>
           <div class="risk-bar" style="background:linear-gradient(90deg,var(--celadon),rgba(185,240,215,0.2));width:18%;"></div>
-          <p style="font-size:12px;color:var(--periwinkle);margin-top:8px;line-height:1.5;">Inovasi dan riset sistem AI kompleks belum bisa direplikasi mesin. Dengan kata lain, AI belum bisa mereplikasi diri sendiri tanpa bantuan manusia.
+          <p style="font-size:12px;color:var(--periwinkle);margin-top:8px;line-height:1.5;">Inovasi dan riset sistem AI kompleks belum bisa direplikasi mesin. Dengan kata lain, <strong>AI BELUM BISA MEREPLIKASI DIRI SENDIRI TANPA BANTUAN MANUSIA</strong>.
             Hal ini yang menyebabkan profesi ini relatif aman dari otomatisasi AI.
           </p>
         </div>
@@ -122,7 +122,7 @@
           const dot  = params.find(p => p.seriesName === 'Job Openings');
           const name = bar?.name ?? '';
           const risk = bar ? bar.value + '%' : '-';
-          const jobs = dot ? Number(dot.value).toLocaleString('id-ID') : '-';
+          const jobs = dot ? dot.data.job.toLocaleString('id-ID') : '-';
           return `<b>${name}</b><br/>Risk : ${risk}<br/>Job Openings : ${jobs}`;
         }
       },
@@ -148,18 +148,18 @@
           axisLabel : { color: C.peri, fontFamily: 'Outfit', formatter: '{value}%' },
           splitLine : { lineStyle: { color: 'rgba(184,186,255,0.07)', type: 'dashed' } }
         },
-        {
-          // Axis 1 — Job Openings (atas)
-          type: 'value',
-          name: 'Job Openings',
-          nameLocation: 'middle',
-          nameGap: 28,
-          nameTextStyle: { color: C.peri, fontSize: 11 },
-          position: 'top',
-          axisLabel : { color: C.peri, fontFamily: 'Outfit',
-                        formatter: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v },
-          splitLine : { show: false }
-        }
+        // {
+        //   // Axis 1 — Job Openings (atas)
+        //   type: 'value',
+        //   name: 'Job Openings',
+        //   nameLocation: 'middle',
+        //   nameGap: 28,
+        //   nameTextStyle: { color: C.peri, fontSize: 11 },
+        //   position: 'top',
+        //   axisLabel : { color: C.peri, fontFamily: 'Outfit',
+        //                 formatter: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v },
+        //   splitLine : { show: false }
+        // }
       ],
 
       yAxis: {
